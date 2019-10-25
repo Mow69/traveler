@@ -4,6 +4,7 @@ namespace App\DataFixtures;
 
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
+use Faker\Factory;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
@@ -26,5 +27,21 @@ class AppFixtures extends Fixture
 
         $manager->persist($admin);
         $manager->flush();
+
+
+        $faker = Factory::create('fr_FR');
+
+        for ($i = 0; $i < 10; $i++) {
+            // Je crée un objet
+            $fakeUser = new User();
+            // J'affect ses attributs
+            $fakeUser->setEmail($faker->sentence(5, true))
+                ->setDescription($faker->paragraph(5, true));
+            // J'indique à mon gestionnaire d'entités que je veux insérer cet objet en BDD
+            $manager->persist($fakeUser);
+        }
+
+        $manager->flush();
+
     }
 }
