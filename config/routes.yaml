@@ -1,3 +1,11 @@
 #index:
 #    path: /
 #    controller: App\Controller\DefaultController::index
+
+admin:
+    type: annotation
+    resource: '../src/Controller/Admin/'
+    # this prefix is added to all the action route names
+    name_prefix: admin_
+    # this prefix is added to all the action URLs
+    prefix: /admin
