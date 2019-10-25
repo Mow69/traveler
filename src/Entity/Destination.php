@@ -21,6 +21,11 @@ class Destination
      */
     private $latitude;
 
+    /**
+     * @ORM\ManyToOne(targetEntity="App\Entity\Country", inversedBy="destinations")
+     */
+    private $country;
+
 
     public function getLongitude(): ?int
     {
@@ -42,6 +47,18 @@ class Destination
     public function setLatitude(int $latitude): self
     {
         $this->latitude = $latitude;
+
+        return $this;
+    }
+
+    public function getCountry(): ?Country
+    {
+        return $this->country;
+    }
+
+    public function setCountry(?Country $country): self
+    {
+        $this->country = $country;
 
         return $this;
     }

@@ -33,6 +33,16 @@ class Travel
      */
     private $pictures;
 
+    /**
+     * @ORM\Column(type="smallint", nullable=true)
+     */
+    private $review;
+
+    /**
+     * @ORM\Column(type="text", nullable=true)
+     */
+    private $description;
+
     public function __construct()
     {
         $this->pictures = new ArrayCollection();
@@ -102,6 +112,30 @@ class Travel
                 $picture->setTravel(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getReview(): ?int
+    {
+        return $this->review;
+    }
+
+    public function setReview(?int $review): self
+    {
+        $this->review = $review;
+
+        return $this;
+    }
+
+    public function getDescription(): ?string
+    {
+        return $this->description;
+    }
+
+    public function setDescription(?string $description): self
+    {
+        $this->description = $description;
 
         return $this;
     }
