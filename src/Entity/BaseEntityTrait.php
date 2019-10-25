@@ -1,6 +1,9 @@
 <?php
 
-namespace App;
+namespace App\Entity;
+
+use Gedmo\Mapping\Annotation as Gedmo;
+use Doctrine\ORM\Mapping as ORM;
 
 
 trait BaseEntityTrait
@@ -13,6 +16,7 @@ trait BaseEntityTrait
     private $id;
 
     /**
+     * @Gedmo\Timestampable(on="create")
      * @ORM\Column(type="datetime")
      */
     private $created;

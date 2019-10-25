@@ -2,7 +2,6 @@
 
 namespace App\Entity;
 
-use App\BaseEntityTrait;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
