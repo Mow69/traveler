@@ -1,6 +1,10 @@
 <?php
 
-trait BaseEntityTrait {
+namespace App;
+
+
+trait BaseEntityTrait
+{
     /**
      * @ORM\Id()
      * @ORM\GeneratedValue()

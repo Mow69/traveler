@@ -2,6 +2,9 @@
 
 namespace App\Entity;
 
+use App\BaseEntityTrait;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -9,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Travel
 {
-    use \BaseEntityTrait;
+    use BaseEntityTrait;
 
     /**
      * @ORM\Column(type="string", length=255, nullable=true)
@@ -25,6 +28,16 @@ class Travel
      * @ORM\Column(type="float", nullable=true)
      */
     private $distance_traveled;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Picture", mappedBy="travel", orphanRemoval=true)
+     */
+    private $pictures;
+
+    public function __construct()
+    {
+        $this->pictures = new ArrayCollection();
+    }
 
 
     public function getTitle(): ?string
@@ -59,6 +72,37 @@ class Travel
     public function setDistanceTraveled(?float $distance_traveled): self
     {
         $this->distance_traveled = $distance_traveled;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|Picture[]
+     */
+    public function getPictures(): Collection
+    {
+        return $this->pictures;
+    }
+
+    public function addPicture(Picture $picture): self
+    {
+        if (!$this->pictures->contains($picture)) {
+            $this->pictures[] = $picture;
+            $picture->setTravel($this);
+        }
+
+        return $this;
+    }
+
+    public function removePicture(Picture $picture): self
+    {
+        if ($this->pictures->contains($picture)) {
+            $this->pictures->removeElement($picture);
+            // set the owning side to null (unless already changed)
+            if ($picture->getTravel() === $this) {
+                $picture->setTravel(null);
+            }
+        }
 
         return $this;
     }

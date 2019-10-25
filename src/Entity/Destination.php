@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\BaseEntityTrait;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -9,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Destination
 {
-    use \BaseEntityTrait;
+    use BaseEntityTrait;
 
     /**
      * @ORM\Column(type="integer")

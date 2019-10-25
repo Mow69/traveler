@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\BaseEntityTrait;
 use DateTime;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -13,7 +14,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface
 {
-   use \BaseEntityTrait;
+   use BaseEntityTrait;
 
     /**
      * @ORM\Column(type="string", length=180, unique=true)
