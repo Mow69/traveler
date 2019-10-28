@@ -22,7 +22,7 @@ class TravelController extends AbstractController
      */
     public function index(TravelRepository $travelRepository): Response
     {
-        return $this->render('travel/index.html.twig', [
+        return $this->render('admin/travel/index.html.twig', [
             'travels' => $travelRepository->findAll(),
         ]);
     }
@@ -46,7 +46,7 @@ class TravelController extends AbstractController
             return $this->redirectToRoute('travel_index');
         }
 
-        return $this->render('travel/new.html.twig', [
+        return $this->render('admin/travel/new.html.twig', [
             'travel' => $travel,
             'form' => $form->createView(),
         ]);
@@ -59,7 +59,7 @@ class TravelController extends AbstractController
      */
     public function show(Travel $travel): Response
     {
-        return $this->render('travel/show.html.twig', [
+        return $this->render('admin/travel/show.html.twig', [
             'travel' => $travel,
         ]);
     }
@@ -81,7 +81,7 @@ class TravelController extends AbstractController
             return $this->redirectToRoute('travel_index');
         }
 
-        return $this->render('travel/edit.html.twig', [
+        return $this->render('admin/travel/edit.html.twig', [
             'travel' => $travel,
             'form' => $form->createView(),
         ]);

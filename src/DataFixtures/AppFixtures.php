@@ -35,13 +35,14 @@ class AppFixtures extends Fixture
             // Je crée un objet
             $fakeUser = new User();
             // J'affect ses attributs
-            $fakeUser->setEmail($faker->sentence(5, true))
-                ->setDescription($faker->paragraph(5, true));
+            $fakeUser->setEmail($faker->email());
+            $fakeUser->setPassword($faker->password());
+
+
             // J'indique à mon gestionnaire d'entités que je veux insérer cet objet en BDD
             $manager->persist($fakeUser);
         }
 
         $manager->flush();
-
     }
 }

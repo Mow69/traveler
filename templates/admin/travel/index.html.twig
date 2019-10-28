@@ -25,8 +25,8 @@
                 <td>{{ travel.id }}</td>
                 <td>{{ travel.created ? travel.created|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('travel_show', {'id': travel.id}) }}">show</a>
-                    <a href="{{ path('travel_edit', {'id': travel.id}) }}">edit</a>
+                    <a href="{{ render('admin_travel_show', {'id': travel.id}) }}">show</a>
+                    <a href="{{ render('admin_travel_edit', {'id': travel.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -37,5 +37,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('travel_new') }}">Create new</a>
+    <a href="{{ render('admin_travel_new') }}">Create new</a>
 {% endblock %}

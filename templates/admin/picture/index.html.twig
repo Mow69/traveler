@@ -23,8 +23,8 @@
                 <td>{{ picture.id }}</td>
                 <td>{{ picture.created ? picture.created|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
-                    <a href="{{ path('picture_show', {'id': picture.id}) }}">show</a>
-                    <a href="{{ path('picture_edit', {'id': picture.id}) }}">edit</a>
+                    <a href="{{ render('admin_picture_show', {'id': picture.id}) }}">show</a>
+                    <a href="{{ render('admin_picture_edit', {'id': picture.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -35,5 +35,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('picture_new') }}">Create new</a>
+    <a href="{{ render('admin_picture_new') }}">Create new</a>
 {% endblock %}

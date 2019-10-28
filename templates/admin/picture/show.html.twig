@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Picture{% endblock %}
+{% block title %}Picture
+{% endblock %}
 
 {% block body %}
     <h1>Picture</h1>
@@ -26,9 +27,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('picture_index') }}">back to list</a>
+    <a href="{{ render('admin_picture_index') }}">back to list</a>
 
-    <a href="{{ path('picture_edit', {'id': picture.id}) }}">edit</a>
+    <a href="{{ render('admin_picture_edit', {'id': picture.id}) }}">edit</a>
 
-    {{ include('picture/_delete_form.html.twig') }}
+    {{ include('admin/picture/_delete_form.html.twig') }}
 {% endblock %}

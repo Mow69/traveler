@@ -22,7 +22,7 @@ class DestinationController extends AbstractController
      */
     public function index(DestinationRepository $destinationRepository): Response
     {
-        return $this->render('destination/index.html.twig', [
+        return $this->render('admin/destination/index.html.twig', [
             'destinations' => $destinationRepository->findAll(),
         ]);
     }
@@ -44,7 +44,7 @@ class DestinationController extends AbstractController
             return $this->redirectToRoute('destination_index');
         }
 
-        return $this->render('destination/new.html.twig', [
+        return $this->render('admin/destination/new.html.twig', [
             'destination' => $destination,
             'form' => $form->createView(),
         ]);
@@ -57,7 +57,7 @@ class DestinationController extends AbstractController
      */
     public function show(Destination $destination): Response
     {
-        return $this->render('destination/show.html.twig', [
+        return $this->render('admin/destination/show.html.twig', [
             'destination' => $destination,
         ]);
     }
@@ -79,7 +79,7 @@ class DestinationController extends AbstractController
             return $this->redirectToRoute('destination_index');
         }
 
-        return $this->render('destination/edit.html.twig', [
+        return $this->render('admin/destination/edit.html.twig', [
             'destination' => $destination,
             'form' => $form->createView(),
         ]);
