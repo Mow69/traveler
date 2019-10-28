@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Destination index{% endblock %}
+{% block title %}Destination index
+{% endblock %}
 
 {% block body %}
     <h1>Destination index</h1>
@@ -16,24 +17,24 @@
             </tr>
         </thead>
         <tbody>
-        {% for destination in destinations %}
-            <tr>
-                <td>{{ destination.longitude }}</td>
-                <td>{{ destination.latitude }}</td>
-                <td>{{ destination.id }}</td>
-                <td>{{ destination.created ? destination.created|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ render('admin_destination_show', {'id': destination.id}) }}">show</a>
-                    <a href="{{ render('admin_destination_edit', {'id': destination.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
+            {% for destination in destinations %}
+                <tr>
+                    <td>{{ destination.longitude }}</td>
+                    <td>{{ destination.latitude }}</td>
+                    <td>{{ destination.id }}</td>
+                    <td>{{ destination.created ? destination.created|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>
+                        <a href="{{ path('admin_destination_show', {'id': destination.id}) }}">show</a>
+                        <a href="{{ path('admin_destination_edit', {'id': destination.id}) }}">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="5">no records found</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ render('admin_destination_new') }}">Create new</a>
+    <a href="{{ path('admin_destination_new') }}">Create new</a>
 {% endblock %}

@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block content %}
+    <div class="container mt-4">
+        {% for label, messages in app.flashes %}
+            {% for message in messages %}
+                <div class="alert alert-{{ label }}" role="alert">
+                    {{ message }}
+                </div>
+                {# <div>
+                <a href='{{ path }}'>
+                </div> #}
+            {% endfor %}
+        {% endfor %}
+    </div>
+{% endblock %}

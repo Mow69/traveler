@@ -15,17 +15,17 @@ use Symfony\Component\Routing\Annotation\Route;
  */
 class UserController extends AbstractController
 {
-//    /**
-//     * @Route("/", name="user_index", methods={"GET"})
-//     * @param UserRepository $userRepository
-//     * @return Response
-//     */
-//    public function index(UserRepository $userRepository): Response
-//    {
-//        return $this->render('admin/user/index.html.twig', [
-//            'users' => $userRepository->findAll(),
-//        ]);
-//    }
+    //    /**
+    //     * @Route("/", name="user_index", methods={"GET"})
+    //     * @param UserRepository $userRepository
+    //     * @return Response
+    //     */
+    //    public function index(UserRepository $userRepository): Response
+    //    {
+    //        return $this->render('admin/user/index.html.twig', [
+    //            'users' => $userRepository->findAll(),
+    //        ]);
+    //    }
 
     /**
      * @Route("/new", name="user_new", methods={"GET","POST"})
@@ -43,7 +43,7 @@ class UserController extends AbstractController
             $entityManager->persist($user);
             $entityManager->flush();
 
-            return $this->redirectToRoute('user_index');
+            return $this->redirectToRoute('admin_user_index');
         }
 
         return $this->render('admin/user/new.html.twig', [
@@ -78,7 +78,7 @@ class UserController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('user_index');
+            return $this->redirectToRoute('admin_user_index');
         }
 
         return $this->render('admin/user/edit.html.twig', [
@@ -95,12 +95,12 @@ class UserController extends AbstractController
      */
     public function delete(Request $request, User $user): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$user->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $user->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($user);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('user_index');
+        return $this->redirectToRoute('admin_user_index');
     }
 }

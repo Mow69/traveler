@@ -1,6 +1,7 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Travel index{% endblock %}
+{% block title %}Travel index
+{% endblock %}
 
 {% block body %}
     <h1>Travel index</h1>
@@ -17,25 +18,25 @@
             </tr>
         </thead>
         <tbody>
-        {% for travel in travels %}
-            <tr>
-                <td>{{ travel.title }}</td>
-                <td>{{ travel.departure ? travel.departure|date('Y-m-d') : '' }}</td>
-                <td>{{ travel.distanceTraveled }}</td>
-                <td>{{ travel.id }}</td>
-                <td>{{ travel.created ? travel.created|date('Y-m-d H:i:s') : '' }}</td>
-                <td>
-                    <a href="{{ render('admin_travel_show', {'id': travel.id}) }}">show</a>
-                    <a href="{{ render('admin_travel_edit', {'id': travel.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="6">no records found</td>
-            </tr>
-        {% endfor %}
+            {% for travel in travels %}
+                <tr>
+                    <td>{{ travel.title }}</td>
+                    <td>{{ travel.departure ? travel.departure|date('Y-m-d') : '' }}</td>
+                    <td>{{ travel.distanceTraveled }}</td>
+                    <td>{{ travel.id }}</td>
+                    <td>{{ travel.created ? travel.created|date('Y-m-d H:i:s') : '' }}</td>
+                    <td>
+                        <a href="{{ path('admin_travel_show', {'id': travel.id}) }}">show</a>
+                        <a href="{{ path('admin_travel_edit', {'id': travel.id}) }}">edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="6">no records found</td>
+                </tr>
+            {% endfor %}
         </tbody>
     </table>
 
-    <a href="{{ render('admin_travel_new') }}">Create new</a>
+    <a href="{{ path('admin_travel_new') }}">Create new</a>
 {% endblock %}

@@ -2,6 +2,7 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\Country;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Faker\Factory;
@@ -21,6 +22,8 @@ class AppFixtures extends Fixture
     {
         $admin = new User();
         $admin->setEmail('admin@traveler.com');
+        $admin->setRoles(['ROLE_ADMIN']);
+
 
         $password = $this->encoder->encodePassword($admin, 'traveler');
         $admin->setPassword($password);
@@ -39,10 +42,26 @@ class AppFixtures extends Fixture
             $fakeUser->setPassword($faker->password());
 
 
+
             // J'indique à mon gestionnaire d'entités que je veux insérer cet objet en BDD
             $manager->persist($fakeUser);
         }
 
+        // COUNTRIES
+
+        if (($countriesFile = fopen(__DIR__ . "\..\..\data\countries.csv", "r")) !== FALSE) {
+            while (($data = fgetcsv($countriesFile)) !== FALSE) {
+                $country = new Country();
+                $country->setName($data[0]);
+                $manager->persist($country);
+            }
+            fclose($countriesFile);
+        }
+
         $manager->flush();
     }
+
+
+
+
 }

@@ -43,7 +43,7 @@ class PictureController extends AbstractController
             $entityManager->persist($picture);
             $entityManager->flush();
 
-            return $this->redirectToRoute('picture_index');
+            return $this->redirectToRoute('admin_picture_index');
         }
 
         return $this->render('admin/picture/new.html.twig', [
@@ -78,7 +78,7 @@ class PictureController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('picture_index');
+            return $this->redirectToRoute('admin_picture_index');
         }
 
         return $this->render('admin/picture/edit.html.twig', [
@@ -95,12 +95,12 @@ class PictureController extends AbstractController
      */
     public function delete(Request $request, Picture $picture): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$picture->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $picture->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($picture);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('picture_index');
+        return $this->redirectToRoute('admin_picture_index');
     }
 }

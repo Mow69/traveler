@@ -43,7 +43,7 @@ class TravelController extends AbstractController
             $entityManager->persist($travel);
             $entityManager->flush();
 
-            return $this->redirectToRoute('travel_index');
+            return $this->redirectToRoute('admin_travel_index');
         }
 
         return $this->render('admin/travel/new.html.twig', [
@@ -78,7 +78,7 @@ class TravelController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $this->getDoctrine()->getManager()->flush();
 
-            return $this->redirectToRoute('travel_index');
+            return $this->redirectToRoute('admin_travel_index');
         }
 
         return $this->render('admin/travel/edit.html.twig', [
@@ -95,12 +95,12 @@ class TravelController extends AbstractController
      */
     public function delete(Request $request, Travel $travel): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$travel->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $travel->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($travel);
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('travel_index');
+        return $this->redirectToRoute('admin_travel_index');
     }
 }
