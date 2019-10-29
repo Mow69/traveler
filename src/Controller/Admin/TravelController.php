@@ -9,6 +9,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Gedmo\Sluggable\Util\Urlizer;
 
 /**
  * @Route("/travel")
@@ -38,10 +39,27 @@ class TravelController extends AbstractController
         $form = $this->createForm(TravelType::class, $travel);
         $form->handleRequest($request);
 
+        // TODO: Permettre l'upload de plusieurs images grace à une méthode for ou foreach
         if ($form->isSubmitted() && $form->isValid()) {
-            $entityManager = $this->getDoctrine()->getManager();
-            $entityManager->persist($travel);
-            $entityManager->flush();
+            $pictures = $form["pictures"]->getData();
+
+            foreach ($pictures as $picture) {
+                if ($picture < 10) {
+                    break;
+                }
+                $destination = $this->getParameter('kernel.project_dir') . '/public/images';
+                $originalFilename = pathinfo($pictures->getClientOriginalName(), PATHINFO_FILENAME);
+                $newFilename = Urlizer::urlize($originalFilename) . '-' . uniqid() . '.' . $pictures->guessExtension();
+                $pictures->move(
+                    $destination,
+                    $newFilename
+                );
+            }
+
+            dd($pictures);
+            // $entityManager = $this->getDoctrine()->getManager();
+            // $entityManager->persist($travel);
+            // $entityManager->flush();
 
             return $this->redirectToRoute('admin_travel_index');
         }
@@ -76,6 +94,7 @@ class TravelController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            //dd($form['pictures']->getData());
             $this->getDoctrine()->getManager()->flush();
 
             return $this->redirectToRoute('admin_travel_index');

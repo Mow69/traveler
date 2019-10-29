@@ -51,6 +51,9 @@ class Destination
         return $this;
     }
 
+    /**
+     * @return Country|null
+     */
     public function getCountry(): ?Country
     {
         return $this->country;

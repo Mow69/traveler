@@ -14,7 +14,6 @@ class PictureType extends AbstractType
         $builder
             ->add('caption')
             ->add('path')
-            ->add('created')
             ->add('owner')
             ->add('travel')
         ;

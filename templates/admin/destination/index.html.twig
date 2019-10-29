@@ -3,12 +3,13 @@
 {% block title %}Destination index
 {% endblock %}
 
-{% block body %}
+{% block content %}
     <h1>Destination index</h1>
 
     <table class="table">
         <thead>
             <tr>
+                <th>Country</th>
                 <th>Longitude</th>
                 <th>Latitude</th>
                 <th>Id</th>
@@ -19,6 +20,7 @@
         <tbody>
             {% for destination in destinations %}
                 <tr>
+                    <td>{{ destination.country ? destination.country.name : "NULL"}}</td>
                     <td>{{ destination.longitude }}</td>
                     <td>{{ destination.latitude }}</td>
                     <td>{{ destination.id }}</td>

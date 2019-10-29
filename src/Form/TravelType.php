@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Travel;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -15,7 +16,10 @@ class TravelType extends AbstractType
             ->add('title')
             ->add('departure')
             ->add('distance_traveled')
-            ->add('created')
+            ->add('pictures', FileType::class, [
+                'mapped' => false,
+                "multiple" => true,
+            ])
         ;
     }
 
