@@ -5,10 +5,13 @@ namespace App\Controller\Admin;
 use App\Entity\Destination;
 use App\Form\DestinationType;
 use App\Repository\DestinationRepository;
+use App\Service\OpenStreetMapAPIService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Serializer\SerializerInterface;
 
 /**
  * @Route("/destination")
@@ -16,7 +19,19 @@ use Symfony\Component\Routing\Annotation\Route;
 class DestinationController extends AbstractController
 {
     /**
+     * @var SerializerInterface
+     */
+    private $serializer;
+
+    public function __construct(SerializerInterface $serializer)
+    {
+        $this->serializer = $serializer;
+    }
+
+    /**
      * @Route("/", name="destination_index", methods={"GET"})
+     * @param DestinationRepository $destinationRepository
+     * @return Response
      */
     public function index(DestinationRepository $destinationRepository): Response
     {
@@ -27,6 +42,8 @@ class DestinationController extends AbstractController
 
     /**
      * @Route("/new", name="destination_new", methods={"GET","POST"})
+     * @param Request $request
+     * @return Response
      */
     public function new(Request $request): Response
     {
@@ -78,6 +95,9 @@ class DestinationController extends AbstractController
 
     /**
      * @Route("/{id}/edit", name="destination_edit", methods={"GET","POST"})
+     * @param Request $request
+     * @param Destination $destination
+     * @return Response
      */
     public function edit(Request $request, Destination $destination): Response
     {
@@ -98,6 +118,9 @@ class DestinationController extends AbstractController
 
     /**
      * @Route("/{id}", name="destination_delete", methods={"DELETE"})
+     * @param Request $request
+     * @param Destination $destination
+     * @return Response
      */
     public function delete(Request $request, Destination $destination): Response
     {
@@ -109,4 +132,21 @@ class DestinationController extends AbstractController
 
         return $this->redirectToRoute('admin_destination_index');
     }
+
+// TODO: Faire la géolocalisation dans Controller
+
+    // CARTE
+    /**
+     * @Route("/carte", name="carte", methods={"GET"})
+     * @return JsonResponse
+     */
+    public function getMoviesList()
+    {
+        $osmAPIService = new OpenStreetMapAPIService();
+        $mapData = $osmAPIService->getAllMap();
+
+        return new JsonResponse($mapData, 200, [], true);
+    }
+
+
 }
