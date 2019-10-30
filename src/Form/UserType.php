@@ -14,18 +14,22 @@ class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options)
     {
+        $user = $builder->getData();
         $builder
             ->add('login', TextType::class, [
                 'label' => "Nom d'utilisateur"
-            ])
-            ->add('password', RepeatedType::class, [
-                'type' => PasswordType::class,
-                'invalid_message' => 'Les mots de passe doivent être identiques',
-                'options' => ['attr' => ['class' => 'password-field']],
-                'required' => true,
-                'first_options'  => ['label' => 'Mot de passe'],
-                'second_options' => ['label' => 'Confirmez le mot de passe']
             ]);
+
+            if(is_null($user->getId())) {
+                $builder->add('password', RepeatedType::class, [
+                    'type' => PasswordType::class,
+                    'invalid_message' => 'Les mots de passe doivent être identiques',
+                    'options' => ['attr' => ['class' => 'password-field']],
+                    'required' => true,
+                    'first_options'  => ['label' => 'Mot de passe'],
+                    'second_options' => ['label' => 'Confirmez le mot de passe']
+                ]);
+            }
     }
 
     public function configureOptions(OptionsResolver $resolver)
