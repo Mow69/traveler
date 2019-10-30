@@ -10,13 +10,22 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 /**
  * @Route("/user")
  */
 class UserController extends AbstractController
 {
-        /**
+    private $encoder;
+
+
+    public function __construct(UserPasswordEncoderInterface $encoder)
+    {
+        $this->encoder = $encoder;
+    }
+
+    /**
          * @Route("/", name="user_index", methods={"GET"})
          * @param UserRepository $userRepository
          * @return Response
@@ -41,6 +50,16 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager = $this->getDoctrine()->getManager();
+
+            // Encode le password lors de la création d'un nouvel user sur le site
+
+            $password = $user->getPassword();
+            $user->setPassword( $this->encoder->encodePassword(
+                $user,
+                $password
+            ));
+
+
             $entityManager->persist($user);
             $entityManager->flush();
 

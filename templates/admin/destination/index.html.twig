@@ -9,10 +9,11 @@
     <table class="table">
         <thead>
             <tr>
+                <th>City</th>
                 <th>Country</th>
-                <th>Longitude</th>
-                <th>Latitude</th>
-                <th>Id</th>
+{#                <th>Longitude</th>#}
+{#                <th>Latitude</th>#}
+{#                <th>Id</th>#}
                 <th>Created</th>
                 <th>actions</th>
             </tr>
@@ -20,11 +21,12 @@
         <tbody>
             {% for destination in destinations %}
                 <tr>
+                    <td>{{ destination.city ? destination.city : "NULL"}}</td>
                     <td>{{ destination.country ? destination.country.name : "NULL"}}</td>
-                    <td>{{ destination.longitude }}</td>
-                    <td>{{ destination.latitude }}</td>
-                    <td>{{ destination.id }}</td>
-                    <td>{{ destination.created ? destination.created|date('Y-m-d H:i:s') : '' }}</td>
+{#                    <td>{{ destination.longitude }}</td>#}
+{#                    <td>{{ destination.latitude }}</td>#}
+{#                    <td>{{ destination.id }}</td>#}
+                    <td>{{ destination.created ? destination.created|date('d/m/Y') : '' }}</td>
                     <td>
                         <a href="{{ path('admin_destination_show', {'id': destination.id}) }}">show</a>
                         <a href="{{ path('admin_destination_edit', {'id': destination.id}) }}">edit</a>

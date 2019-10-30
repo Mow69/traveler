@@ -9,6 +9,10 @@
     <table class="table">
         <tbody>
         <tr>
+            <th>City</th>
+            <td>{{ destination.city }}</td>
+        </tr>
+        <tr>
             <th>Country</th>
             <td>{{ destination.country.name }}</td>
         </tr>
@@ -20,13 +24,13 @@
                 <th>Latitude</th>
                 <td>{{ destination.latitude }}</td>
             </tr>
-            <tr>
-                <th>Id</th>
-                <td>{{ destination.id }}</td>
-            </tr>
+{#            <tr>#}
+{#                <th>Id</th>#}
+{#                <td>{{ destination.id }}</td>#}
+{#            </tr>#}
             <tr>
                 <th>Created</th>
-                <td>{{ destination.created ? destination.created|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ destination.created ? destination.created|date('d/m/Y') : '' }}</td>
             </tr>
         </tbody>
     </table>
