@@ -1,0 +1,15 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello IndexController!{% endblock %}
+
+{% block body %}
+
+{% if app.user %}
+    Hello {{ app.user.login }}
+    <p><a href="{{ path('app_logout') }}">Déconnexion</a></p>
+{% else %}
+    <p>Vous n'êtes pas connecté</p>
+    <p><a href="{{ path('app_login') }}">Connexion</a></p>
+{% endif %}
+
+{% endblock %}
