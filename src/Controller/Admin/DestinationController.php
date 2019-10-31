@@ -4,35 +4,18 @@ namespace App\Controller\Admin;
 
 use App\Entity\Destination;
 use App\Form\DestinationType;
+use App\Geocoding\IGeocoding;
 use App\Repository\DestinationRepository;
-use App\Service\OpenStreetMapAPIService;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Serializer\SerializerInterface;
-use Symfony\Contracts\HttpClient\Exception\ClientExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\DecodingExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\RedirectionExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\ServerExceptionInterface;
-use Symfony\Contracts\HttpClient\Exception\TransportExceptionInterface;
 
 /**
  * @Route("/destination")
  */
 class DestinationController extends AbstractController
 {
-    /**
-     * @var SerializerInterface
-     */
-    private $serializer;
-
-    public function __construct(SerializerInterface $serializer)
-    {
-        $this->serializer = $serializer;
-    }
-
     /**
      * @Route("/", name="destination_index", methods={"GET"})
      * @param DestinationRepository $destinationRepository
@@ -48,15 +31,10 @@ class DestinationController extends AbstractController
     /**
      * @Route("/new", name="destination_new", methods={"GET","POST"})
      * @param Request $request
-     * @param OpenStreetMapAPIService $osmaService
+     * @param IGeocoding $geocodingService
      * @return Response
-     * @throws ClientExceptionInterface
-     * @throws DecodingExceptionInterface
-     * @throws RedirectionExceptionInterface
-     * @throws ServerExceptionInterface
-     * @throws TransportExceptionInterface
      */
-    public function new(Request $request, OpenStreetMapAPIService $osmaService): Response
+    public function new(Request $request, IGeocoding $geocodingService): Response
     {
         // On définit une entité vide
         $destination = new Destination();
@@ -72,20 +50,18 @@ class DestinationController extends AbstractController
         // et que les données renseignées sont valides (bon format, dans les limites fixées, etc...)
         // on rentre dans le bloc d'instructions
         if ($form->isSubmitted() && $form->isValid()) {
+            $location = $destination->getVille() . ', ' . $destination->getPays()->getNom();
 
-// Affecte dans un tableau
-            $tab = $osmaService->createConn($destination->getVille() . ', ' .$destination->getPays()->getNom());
-            //var_dump($tab);
-            $latitude = $tab[0]['lat'];
-            $longitude = $tab[0]['lon'];
-            $destination->setLat($latitude);
-            $destination->setLng($longitude);
-
-
-
+            $geoData = $geocodingService->geocode($location);
 
             // Récupération du gestionnaire d'entités
             $entityManager = $this->getDoctrine()->getManager();
+
+            if (!empty($geoData)) {
+                $destination->setLat($geoData[0]['lat']);
+                $destination->setLng($geoData[0]['lon']);
+            }
+
             // On indique au gestionnaire d'entités qu'on veut insérer $destination en BDD
             // Pour cela, on appelle la méthode persist pour que l'entité en question
             // soit gérée par notre gestionnaire (donc si elle n'existe pas, comme c'est
@@ -149,7 +125,7 @@ class DestinationController extends AbstractController
      */
     public function delete(Request $request, Destination $destination): Response
     {
-        if ($this->isCsrfTokenValid('delete'.$destination->getId(), $request->request->get('_token'))) {
+        if ($this->isCsrfTokenValid('delete' . $destination->getId(), $request->request->get('_token'))) {
             $entityManager = $this->getDoctrine()->getManager();
             $entityManager->remove($destination);
             $entityManager->flush();
@@ -157,21 +133,4 @@ class DestinationController extends AbstractController
 
         return $this->redirectToRoute('admin_destination_index');
     }
-
-//// TODO: Faire la géolocalisation dans Controller
-//
-//    // CARTE
-//    /**
-//     * @Route("/carte", name="carte", methods={"GET"})
-//     * @param OpenStreetMapAPIService $osmAPIService
-//     * @return JsonResponse
-//     */
-//    public function getMap(OpenStreetMapAPIService $osmAPIService)
-//    {
-//        $mapData = $osmAPIService->getAllMap();
-//
-//        return new JsonResponse($mapData, 200, [], true);
-//    }
-
-
 }

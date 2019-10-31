@@ -3,36 +3,36 @@
 {% block title %}Destination{% endblock %}
 
 {% block body %}
-    <h1>Destination</h1>
+    <div class="container">
+        <h1>Destination <span class="badge badge-info">{{ destination.lat }} / {{ destination.lng }}</span></h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Ville</th>
-                <td>{{ destination.ville }}</td>
-            </tr>
-            <tr>
-                <th>Lat</th>
-                <td>{{ destination.lat }}</td>
-            </tr>
-            <tr>
-                <th>Lng</th>
-                <td>{{ destination.lng }}</td>
-            </tr>
-            <tr>
-                <th>Created</th>
-                <td>{{ destination.created ? destination.created|date('d/m/Y') : '' }}</td>
-            </tr>
-            <tr>
-                <th>Pays</th>
-                <td>{{ destination.pays.nom }}</td>
-            </tr>
-        </tbody>
-    </table>
+        <table class="table">
+            <tbody>
+                <tr>
+                    <th>Ville</th>
+                    <td>{{ destination.ville }}</td>
+                </tr>
+                <tr>
+                    <th>Created</th>
+                    <td>{{ destination.created ? destination.created|date('d/m/Y') : '' }}</td>
+                </tr>
+                <tr>
+                    <th>Pays</th>
+                    <td>{{ destination.pays.nom }}</td>
+                </tr>
+                <tr>
+                    <th>Carte</th>
+                    <td><iframe style="border: 0;" src="https://nominatim.openstreetmap.org/search.php?q=Lyon%2C+france&polygon_geojson=1&viewbox=6" width="600" height="450" frameborder="0"></iframe>
+                    </td>
+{#                    <td><iframe style="border: 0;" src="api_osm_base_url/" width="600" height="450" frameborder="0"></iframe>#}
+                </tr>
+            </tbody>
+        </table>
 
-    <a href="{{ path('admin_destination_index') }}">back to list</a>
+        <a href="{{ path('admin_destination_index') }}">back to list</a>
 
-    <a href="{{ path('admin_destination_edit', {'id': destination.id}) }}">edit</a>
+        <a href="{{ path('admin_destination_edit', {'id': destination.id}) }}">edit</a>
 
-    {{ include('admin/destination/_delete_form.html.twig') }}
+        {{ include('admin/destination/_delete_form.html.twig') }}
+    </div>
 {% endblock %}
